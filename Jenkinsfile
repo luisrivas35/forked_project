@@ -4,6 +4,9 @@ pipeline {
     stage('Initialize') {
       steps {
         echo 'Initializing'
+        isUnix()
+        timestamps()
+        fileExists 'ejemplo.txt'
       }
     }
 
@@ -11,6 +14,7 @@ pipeline {
       steps {
         echo 'Estoy haciendo tests'
         writeFile(file: 'ejemplo.txt', text: 'Escribiendo text')
+        input(message: 'Aprobación Necesaria', id: '1')
       }
     }
 
@@ -21,10 +25,22 @@ pipeline {
     }
 
     stage('Deploy') {
-      steps {
-        sh 'echo "haciendo deploy"'
-        fileExists 'ejemplo.txt'
-        echo 'terminando...'
+      parallel {
+        stage('Deploy') {
+          steps {
+            sh 'echo "haciendo deploy"'
+            fileExists 'ejemplo.txt'
+            echo 'terminando...'
+            writeFile(file: 'ejemplo.txt', text: 'haciendo el deploy')
+          }
+        }
+
+        stage('') {
+          steps {
+            echo 'Terminando Deploy'
+          }
+        }
+
       }
     }
 
