@@ -5,7 +5,6 @@ pipeline {
       steps {
         echo 'Initializing'
         isUnix()
-        timestamps()
         fileExists 'ejemplo.txt'
       }
     }
@@ -14,7 +13,7 @@ pipeline {
       steps {
         echo 'Estoy haciendo tests'
         writeFile(file: 'ejemplo.txt', text: 'Escribiendo text')
-        input(message: 'Aprobación Necesaria', id: '1')
+        input(message: 'AprobaciÃ³n Necesaria', id: '1')
       }
     }
 
@@ -35,7 +34,7 @@ pipeline {
           }
         }
 
-        stage('') {
+        stage('error') {
           steps {
             echo 'Terminando Deploy'
           }
