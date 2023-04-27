@@ -3,13 +3,28 @@ pipeline {
   stages {
     stage('Initialize') {
       steps {
-        echo 'Esta es el inicio'
+        echo 'Initializing'
       }
     }
 
     stage('Test') {
       steps {
-        sh 'mvn clean verify'
+        echo 'Estoy haciendo tests'
+        writeFile(file: 'ejemplo.txt', text: 'Escribiendo text')
+      }
+    }
+
+    stage('Build') {
+      steps {
+        sh 'java --version'
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        sh 'echo "haciendo deploy"'
+        fileExists 'ejemplo.txt'
+        echo 'terminando...'
       }
     }
 
